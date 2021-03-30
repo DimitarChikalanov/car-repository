@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Table(name = "owners")
 public class Owner extends BaseEntity {
 
-    private String userName;
+    private String username;
 
     private String firstName;
 
@@ -16,11 +16,11 @@ public class Owner extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     public void setUsername(String username) {
-        this.userName = username;
+        this.username = username;
     }
 
     @Column(nullable = false)

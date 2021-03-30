@@ -1,11 +1,11 @@
 package com.cars.model.repository;
 
-import com.cars.model.domain.entity.Owner;
+import com.cars.model.domain.entity.Brand;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OwnerRepository extends JpaRepository<Owner, String> {
+public interface BrandRepository extends JpaRepository<Brand, String> {
 
-    Owner findByUsername(String userName);
+    Brand findByName(String name);
 }
