@@ -2,6 +2,8 @@ package com.cars.model.controller;
 
 import com.cars.model.domain.model.CarRequestModel;
 import com.cars.model.domain.model.CarResponseModel;
+import com.cars.model.domain.model.CarUpdateRequestModel;
+import com.cars.model.domain.model.CarUpdateResponseModel;
 import com.cars.model.service.CarService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,5 +22,10 @@ public class CarController {
     @ResponseStatus(HttpStatus.CREATED)
     CarResponseModel createNewCar(@RequestBody CarRequestModel model){
         return this.carService.createCar(model);
+    }
+
+    @PatchMapping("/car")
+    CarUpdateResponseModel updateCar(@RequestBody CarUpdateRequestModel model){
+        return carService.updateCar(model);
     }
 }

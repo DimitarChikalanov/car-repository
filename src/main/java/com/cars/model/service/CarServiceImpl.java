@@ -6,6 +6,8 @@ import com.cars.model.domain.entity.Model;
 import com.cars.model.domain.entity.Owner;
 import com.cars.model.domain.model.CarRequestModel;
 import com.cars.model.domain.model.CarResponseModel;
+import com.cars.model.domain.model.CarUpdateRequestModel;
+import com.cars.model.domain.model.CarUpdateResponseModel;
 import com.cars.model.repository.BrandRepository;
 import com.cars.model.repository.CarRepository;
 import com.cars.model.repository.ModelRepository;
@@ -50,5 +52,27 @@ public class CarServiceImpl implements CarService{
         car.setOwner(owner);
         this.carRepository.saveAndFlush(car);
         return this.modelMapper.map(car, CarResponseModel.class);
+    }
+
+    @Override
+    public CarUpdateResponseModel updateCar(CarUpdateRequestModel model) {
+        Car car = this.carRepository.findByRegistrationNumber(model.getRegistrationNumber());
+
+        if (!model.getOwnerName().equals("")){
+            Owner owner = this.ownerRepository.findByUsername(model.getOwnerName());
+            car.setOwner(owner);
+        }
+
+        if (!model.getColor().equals("")){
+            car.setColor(car.getColor());
+        }
+
+        if (!model.getNewRegistrationNumber().equals("")){
+            car.setRegistrationNumber(model.getNewRegistrationNumber());
+        }
+
+        this.carRepository.saveAndFlush(car);
+
+        return this.modelMapper.map(car, CarUpdateResponseModel.class);
     }
 }
