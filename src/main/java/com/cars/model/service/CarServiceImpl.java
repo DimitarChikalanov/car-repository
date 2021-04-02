@@ -4,16 +4,16 @@ import com.cars.model.domain.entity.Brand;
 import com.cars.model.domain.entity.Car;
 import com.cars.model.domain.entity.Model;
 import com.cars.model.domain.entity.Owner;
-import com.cars.model.domain.model.CarRequestModel;
-import com.cars.model.domain.model.CarResponseModel;
-import com.cars.model.domain.model.CarUpdateRequestModel;
-import com.cars.model.domain.model.CarUpdateResponseModel;
+import com.cars.model.domain.model.*;
 import com.cars.model.repository.BrandRepository;
 import com.cars.model.repository.CarRepository;
 import com.cars.model.repository.ModelRepository;
 import com.cars.model.repository.OwnerRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CarServiceImpl implements CarService{
@@ -42,15 +42,20 @@ public class CarServiceImpl implements CarService{
     @Override
     public CarResponseModel createCar(CarRequestModel model) {
         Owner owner = this.ownerRepository.findByUsername(model.getUsername());
+
         Brand brand = this.brandRepository.findByName(model.getBrandName());
+
         Model brandModel = this.modelRepository.findByName(model.getModelName());
+
         Car car = new Car();
         car.setRegistrationNumber(model.getRegistrationNumber());
         car.setColor(model.getColor());
         car.setBrand(brand);
         car.setModel(brandModel);
         car.setOwner(owner);
+
         this.carRepository.saveAndFlush(car);
+
         return this.modelMapper.map(car, CarResponseModel.class);
     }
 
@@ -74,5 +79,63 @@ public class CarServiceImpl implements CarService{
         this.carRepository.saveAndFlush(car);
 
         return this.modelMapper.map(car, CarUpdateResponseModel.class);
+    }
+
+    @Override
+    public List getCarByOwner(String ownerName) {
+        Owner owner = this.ownerRepository.findByUsername(ownerName);
+        List<CarResponseModel> carResponseModels = new ArrayList<>();
+        List car = this.carRepository.findAllByOwner(owner);
+        carResponseModels.forEach(car::add);
+        return carResponseModels;
+    }
+
+    @Override
+    public List<String> getAllRegistrationNumber() {
+        return this.carRepository.findAllRegistrationNumber();
+    }
+
+    @Override
+    public List<String> getAllRegistrationNumberByBrand(String brandName) {
+        Brand brand = this.brandRepository.findByName(brandName);
+        List<String> listRegistrationNumber = new ArrayList<>();
+
+        for (Car car : this.carRepository.findAllByBrand(brand)) {
+            listRegistrationNumber.add(car.getRegistrationNumber());
+        }
+
+        return listRegistrationNumber;
+    }
+
+    @Override
+    public CarInfoResponseModel getAllInformationByRegistrationNumber(String registrationNumber) {
+        Car car = this.carRepository.findByRegistrationNumber(registrationNumber);
+
+        Owner owner = this.ownerRepository.findByUsername(car.getOwner().getUsername());
+
+        Brand brand = this.brandRepository.findByName(car.getBrand().getName());
+
+        Model model = this.modelRepository.findByName(car.getModel().getName());
+
+        CarInfoResponseModel carInfoResponseModel = new CarInfoResponseModel();
+        carInfoResponseModel.setUsername(owner.getUsername());
+        carInfoResponseModel.setFirstName(owner.getFirstName());
+        carInfoResponseModel.setLastname(owner.getLastname());
+        carInfoResponseModel.setRegistrationNumber(car.getRegistrationNumber());
+        carInfoResponseModel.setColor(car.getColor());
+        carInfoResponseModel.setBrandName(brand.getName());
+        carInfoResponseModel.setModel(model.getName());
+        carInfoResponseModel.setHorsePower(model.getHorsePower());
+        carInfoResponseModel.setVolume(model.getVolume());
+        carInfoResponseModel.setEngineCapacity(model.getEngineCapacity());
+
+        return carInfoResponseModel;
+    }
+
+    @Override
+    public void deleteCar(CarDeleteRequestModel model) {
+        Car car = this.carRepository.findByRegistrationNumber(model.getRegistrationNumber());
+
+        this.carRepository.delete(car);
     }
 }
