@@ -10,5 +10,4 @@ public interface ModelRepository extends JpaRepository<Model, String> {
 
     Model findByName(String modelName);
 
-    Model findByBrand(Brand brand);
 }
