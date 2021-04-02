@@ -49,7 +49,6 @@ public class CarController {
     }
 
     @DeleteMapping("/car")
-    @ResponseStatus(HttpStatus.OK)
     public void deleteCar(@RequestBody CarDeleteRequestModel model){
         this.carService.deleteCar(model);
     }
