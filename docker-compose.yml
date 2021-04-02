@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  cars_db:
+    container_name: cars_db
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+     - cars-db-data:/var/lib/postgresql/data
+    expose:
+     - 5432
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=cars
+    networks:
+      - cars-networks
+  cars:
+    container_name: cars
+    build: .
+    restart: on-failure
+    environment:
+      - DB_HOSTNAME=cars_db
+      - DB_PORT=5432
+      - DB_NAME=cars
+      - DB_USER=admin
+      - DB_PASS=root
+    networks:
+      - cars-networks
+    depends_on:
+      - cars_db
+volumes:
+  cars-db-data:
+networks:
+  cars-networks:
+
+
+
+
+

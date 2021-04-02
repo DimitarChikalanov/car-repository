@@ -82,12 +82,9 @@ public class CarServiceImpl implements CarService{
     }
 
     @Override
-    public List getCarByOwner(String ownerName) {
+    public List<Car> getCarByOwner(String ownerName) {
         Owner owner = this.ownerRepository.findByUsername(ownerName);
-        List<CarResponseModel> carResponseModels = new ArrayList<>();
-        List car = this.carRepository.findAllByOwner(owner);
-        carResponseModels.forEach(car::add);
-        return carResponseModels;
+         return this.carRepository.findAllByOwner(owner);
     }
 
     @Override

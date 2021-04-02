@@ -1,5 +1,6 @@
 package com.cars.model.service;
 
+import com.cars.model.domain.entity.Car;
 import com.cars.model.domain.model.*;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface CarService {
 
     CarUpdateResponseModel updateCar(CarUpdateRequestModel model);
 
-    List<CarResponseModel> getCarByOwner(String ownerName);
+    List<Car> getCarByOwner(String ownerName);
 
     List<String> getAllRegistrationNumber();
 

@@ -1,5 +1,6 @@
 package com.cars.model.controller;
 
+import com.cars.model.domain.entity.Car;
 import com.cars.model.domain.model.*;
 import com.cars.model.service.CarService;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class CarController {
     }
 
     @GetMapping("/car/owner/{name}")
-    List<CarResponseModel> getAllCarByOwner(@PathVariable String name) {
+    List<Car> getAllCarByOwner(@PathVariable String name) {
         return this.carService.getCarByOwner(name);
     }
 
@@ -38,9 +39,9 @@ public class CarController {
         return this.carService.getAllRegistrationNumber();
     }
 
-    @GetMapping("/car/brand/{brand}")
-    List<String> getAllRegistrationNumberByBrand(@PathVariable String brand) {
-        return this.carService.getAllRegistrationNumberByBrand(brand);
+    @GetMapping("/car/brand/{name}")
+    List<String> getAllRegistrationNumberByBrand(@PathVariable String name) {
+        return this.carService.getAllRegistrationNumberByBrand(name);
     }
 
     @GetMapping("/car/{registrationNumber}")
@@ -49,7 +50,7 @@ public class CarController {
     }
 
     @DeleteMapping("/car")
-    public void deleteCar(@RequestBody CarDeleteRequestModel model){
+    public void deleteCar(@RequestBody CarDeleteRequestModel model) {
         this.carService.deleteCar(model);
     }
 }
