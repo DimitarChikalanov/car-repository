@@ -72,6 +72,68 @@ values (uuid_generate_v1(), 'Ivan', 'Ivanov', 'ivan96');
 insert into owners (id, first_name, lastname, username)
 values (uuid_generate_v1(), 'Pesho', 'Peshev', 'pesho96');
 ```
+## RESTful API Server
+
+| METHOD  | PATH | DESCRIPTION |
+| ------------- | ------------- | ------------- |
+| POST  | /api/car | Create new car  |
+| PATCH  | /api/car  | Update car by registration number  |
+| GET  | /api/car  | Get all registration number |
+| GET  | /car/owner/{name}  | Get all car by owner name |
+| GET  | /car/brand/{name}  | Get all car by brand name  |
+| GET  | /api/car/{registrationNumber}  | Get all car information by registration number  |
+| DELETE  | /api/car  | Delete car by registration number  |
+
+## Curl
+Curl for Car
+
+1.Create new car
+```bash
+curl --location --request POST 'http://127.0.0.1:8089/api/car' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username":"dimitar96",
+    "brandName":"BMW",
+    "color":"zelen",
+    "modelName":"X4",
+    "registrationNumber":"CB5653BN"
+}'
+```
+2.Update car
+```bash
+curl --location --request PATCH 'http://127.0.0.1:8089/api/car' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "ownerName":"pesho96",
+    "registrationNumber":"CB5653BN",
+    "newRegistrationNumber":"CB6078BN",
+    "color":""
+}'
+```
+3.Get all registration car number 
+```bash
+curl --location --request GET 'http://127.0.0.1:8089/api/car' \
+--header 'Content-Type: text/plain'
+```
+4.Get all car by owner name
+```bash
+curl --location --request GET 'http://127.0.0.1:8089/api/car/owner/dimitar96'
+```
+5.Get all car by brand name
+```bash
+curl --location --request GET 'http://127.0.0.1:8089/api/car/brand/BMW' \
+--header 'Content-Type: text/plain'
+```
+6.Get all car information by registration number
+```bash
+curl --location --request GET 'http://127.0.0.1:8089/api/car/CB5553BN'
+```
+7.Delete car by registration number
+```bash
+curl --location --request DELETE 'http://127.0.0.1:8089/api/car' \
+--header 'Content-Type: application/json' \
+--data-raw '{"registrationNumber":"CB5553BN"}'
+```
 ## Swagger REST API documentation presented here (after application start):
 You can use the Swagger API Documentation at http://localhost:8089/swagger-ui/index.html#
 
