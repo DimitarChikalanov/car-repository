@@ -28,7 +28,7 @@ spring.datasource.username=${DB_USER}
 spring.datasource.password=${DB_PASS}
 ```
 
-## DPostgres settings in application.properties.
+## Postgres settings in application.properties.
 ```bash
 spring.datasource.url=jdbc:postgresql://localhost:5432/car
 spring.datasource.username=
