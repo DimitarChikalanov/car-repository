@@ -14,8 +14,8 @@ cd /car-repository
 ```bash
 git clone https://github.com/DimitarChikalanov/car-repository.git
 cd /car-repository
-docker-compose -p car up 
 docker-compose -p car build
+docker-compose -p car up 
 ```
 
 ## Database c configuration
